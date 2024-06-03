@@ -1,88 +1,141 @@
 //
 //  ContentView.swift
-//  CC3final
+//  CC3-App
 //
-//  Created by user on 9/5/2024.
+//  Created by user on 7/5/2024.
 //
 
 import SwiftUI
-import CoreData
+
+struct Weather: Identifiable {
+    var id = UUID()
+    var time: String
+    var temperature: Double
+    var windSpeed: Double
+}
+
+class WeatherViewModel: ObservableObject {
+    @Published var weatherData: [Weather] = []
+    
+    init() {
+        fetchData()
+    }
+    
+    func fetchData() {
+        guard let url = URL(string: "https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&current=temperature_2m,wind_speed_10m&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m") else {
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let data = data {
+                do {
+                    let result = try JSONDecoder().decode(WeatherResponse.self, from: data)
+                    var weatherArray: [Weather] = []
+                    for i in 0..<result.hourly.time.count {
+                        let weather = Weather(time: result.hourly.time[i], temperature: result.hourly.temperature_2m[i], windSpeed: result.hourly.wind_speed_10m[i])
+                        weatherArray.append(weather)
+                    }
+                    DispatchQueue.main.async {
+                        self.weatherData = weatherArray
+                    }
+                } catch let error {
+                    print("Error decoding JSON: \(error)")
+                }
+            }
+        }.resume()
+    }
+}
 
 struct ContentView: View {
-    @Environment(\.managedObjectContext) private var viewContext
-
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
-        animation: .default)
-    private var items: FetchedResults<Item>
-
+    @StateObject var viewModel = WeatherViewModel()
+    
     var body: some View {
         NavigationView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp!, formatter: itemFormatter)")
-                    } label: {
-                        Text(item.timestamp!, formatter: itemFormatter)
-                    }
-                }
-                .onDelete(perform: deleteItems)
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
-                    }
+            List(viewModel.weatherData) { weather in
+                NavigationLink(destination: WeatherDetailView(weather: weather)) {
+                    WeatherRow(weather: weather)
                 }
             }
-            Text("Select an item")
-        }
-    }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(context: viewContext)
-            newItem.timestamp = Date()
-
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            offsets.map { items[$0] }.forEach(viewContext.delete)
-
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
+            .navigationBarTitle("Weather Forecast")
+            
+            
         }
     }
 }
 
-private let itemFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .medium
-    return formatter
-}()
+
+struct WeatherRow: View {
+    var weather: Weather
+    
+    var body: some View {
+        HStack {
+            Image("weather")
+                .resizable()
+                .frame(width: 80,height: 80)
+                .cornerRadius(40)
+            VStack(alignment: .leading) {
+                Text("Time: \(weather.time)")
+                Text("Temperature: 	\(weather.temperature)°C")
+                Text("Wind Speed: \(weather.windSpeed) m/s")
+            }
+            Spacer()
+            
+        }
+        .padding()
+        .background(Color.brown) // Set background color to white
+        .cornerRadius(8) // Add corner radius
+        .shadow(color: Color.black, radius: 3, x: 0, y: 2) // Add shadow
+        .overlay(
+            RoundedRectangle(cornerRadius: 8) // Add border
+                .stroke(Color.gray, lineWidth: 1)
+        )
+    }
+}
+
+struct WeatherDetailView: View {
+    var weather: Weather
+    
+
+    var body: some View {
+        VStack {
+            Text("Time: \(weather.time)")
+                .font(.title)
+            Text("Temperature: \(weather.temperature)°C")
+            Text("Wind Speed: \(weather.windSpeed) m/s")
+            Spacer()
+        }
+        .padding()
+        .background(Color.brown) // Set background color to white
+        .cornerRadius(8) // Add corner radius
+        .shadow(color: Color.black, radius: 3, x: 0, y: 2) // Add shadow
+        .overlay(
+            RoundedRectangle(cornerRadius: 8) // Add border
+                .stroke(Color.gray, lineWidth: 1)
+        )
+    }
+}
+
+struct WeatherResponse: Codable {
+    var current: Current
+    var hourly: Hourly
+}
+
+struct Current: Codable {
+    var time: String
+    var temperature_2m: Double
+    var wind_speed_10m: Double
+}
+
+struct Hourly: Codable {
+    var time: [String]
+    var wind_speed_10m: [Double]
+    
+    var temperature_2m: [Double]
+    var relative_humidity_2m: [Int]
+}
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        ContentView()
     }
 }

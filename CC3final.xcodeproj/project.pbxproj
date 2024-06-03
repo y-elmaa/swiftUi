@@ -11,8 +11,9 @@
 		CEBF66722BECDCE2005F70FF /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBF66712BECDCE2005F70FF /* ContentView.swift */; };
 		CEBF66742BECDCE4005F70FF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEBF66732BECDCE4005F70FF /* Assets.xcassets */; };
 		CEBF66772BECDCE4005F70FF /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEBF66762BECDCE4005F70FF /* Preview Assets.xcassets */; };
-		CEBF66792BECDCE4005F70FF /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBF66782BECDCE4005F70FF /* Persistence.swift */; };
-		CEBF667C2BECDCE4005F70FF /* CC3final.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CEBF667A2BECDCE4005F70FF /* CC3final.xcdatamodeld */; };
+		CEBF66832BECDCF4005F70FF /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBF66822BECDCF4005F70FF /* Login.swift */; };
+		CEBF66852BECDD04005F70FF /* Register.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBF66842BECDD04005F70FF /* Register.swift */; };
+		CEBF669B2BECECCD005F70FF /* Unknown.png in Resources */ = {isa = PBXBuildFile; fileRef = CEBF669A2BECECCD005F70FF /* Unknown.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,8 +22,9 @@
 		CEBF66712BECDCE2005F70FF /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		CEBF66732BECDCE4005F70FF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CEBF66762BECDCE4005F70FF /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		CEBF66782BECDCE4005F70FF /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
-		CEBF667B2BECDCE4005F70FF /* CC3final.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CC3final.xcdatamodel; sourceTree = "<group>"; };
+		CEBF66822BECDCF4005F70FF /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
+		CEBF66842BECDD04005F70FF /* Register.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Register.swift; sourceTree = "<group>"; };
+		CEBF669A2BECECCD005F70FF /* Unknown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Unknown.png; path = ../../../../../Documents/Unknown.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,11 +57,11 @@
 		CEBF666E2BECDCE2005F70FF /* CC3final */ = {
 			isa = PBXGroup;
 			children = (
+				CEBF66842BECDD04005F70FF /* Register.swift */,
+				CEBF66822BECDCF4005F70FF /* Login.swift */,
 				CEBF666F2BECDCE2005F70FF /* CC3finalApp.swift */,
 				CEBF66712BECDCE2005F70FF /* ContentView.swift */,
 				CEBF66732BECDCE4005F70FF /* Assets.xcassets */,
-				CEBF66782BECDCE4005F70FF /* Persistence.swift */,
-				CEBF667A2BECDCE4005F70FF /* CC3final.xcdatamodeld */,
 				CEBF66752BECDCE4005F70FF /* Preview Content */,
 			);
 			path = CC3final;
@@ -69,6 +71,7 @@
 			isa = PBXGroup;
 			children = (
 				CEBF66762BECDCE4005F70FF /* Preview Assets.xcassets */,
+				CEBF669A2BECECCD005F70FF /* Unknown.png */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
@@ -133,6 +136,7 @@
 			files = (
 				CEBF66772BECDCE4005F70FF /* Preview Assets.xcassets in Resources */,
 				CEBF66742BECDCE4005F70FF /* Assets.xcassets in Resources */,
+				CEBF669B2BECECCD005F70FF /* Unknown.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -143,8 +147,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CEBF667C2BECDCE4005F70FF /* CC3final.xcdatamodeld in Sources */,
-				CEBF66792BECDCE4005F70FF /* Persistence.swift in Sources */,
+				CEBF66852BECDD04005F70FF /* Register.swift in Sources */,
+				CEBF66832BECDCF4005F70FF /* Login.swift in Sources */,
 				CEBF66722BECDCE2005F70FF /* ContentView.swift in Sources */,
 				CEBF66702BECDCE2005F70FF /* CC3finalApp.swift in Sources */,
 			);
@@ -345,19 +349,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		CEBF667A2BECDCE4005F70FF /* CC3final.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				CEBF667B2BECDCE4005F70FF /* CC3final.xcdatamodel */,
-			);
-			currentVersion = CEBF667B2BECDCE4005F70FF /* CC3final.xcdatamodel */;
-			path = CC3final.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = CEBF66642BECDCE2005F70FF /* Project object */;
 }
